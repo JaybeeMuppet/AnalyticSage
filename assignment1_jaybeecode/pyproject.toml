@@ -1,0 +1,12 @@
+[project]
+name = "assignment1-jaybeecode"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.14"
+dependencies = [
+    "pandas>=3.0.6",
+    "psycopg2-binary>=2.9.13",
+    "requests>=2.34.2",
+    "sqlalchemy>=2.1.4",
+]
