@@ -1,0 +1,90 @@
+version: 2
+models:
+- name: stg_uniswap_v3_swaps
+  description: Raw swaps, cast and renamed. One row per Swap event. No business logic.
+  columns:
+  - name: tx_hash
+    description: Transaction hash that emitted the swap (lowercase hex).
+    data_tests:
+    - not_null
+  - name: log_index
+    description: Position of the log in the block. With tx_hash, the natural key of a swap.
+    data_tests:
+    - not_null
+  - name: pool_address
+    description: Pool contract that emitted the swap (lowercase hex).
+    data_tests:
+    - not_null
+  - name: block_number
+    description: Block the swap was mined in.
+    data_tests:
+    - not_null
+  - name: block_timestamp
+    description: Block timestamp (UTC).
+    data_tests:
+    - not_null
+  - name: sender_address
+    description: Address that called swap() on the pool, usually a router (lowercase).
+    data_tests:
+    - not_null
+  - name: recipient_address
+    description: Address that received the output tokens (lowercase).
+    data_tests:
+    - not_null
+  - name: amount0_raw
+    description: Signed change in the pool's token0 balance, raw units. Positive = into the pool.
+    data_tests:
+    - not_null
+  - name: amount1_raw
+    description: Signed change in the pool's token1 balance, raw units. Positive = into the pool.
+    data_tests:
+    - not_null
+  - name: sqrt_price_x96
+    description: Square root of the pool price after the swap, Q64.96 fixed point.
+    data_tests:
+    - not_null
+  - name: liquidity
+    description: Pool in-range liquidity after the swap.
+    data_tests:
+    - not_null
+  - name: tick
+    description: Pool tick after the swap.
+    data_tests:
+    - not_null
+- name: stg_uniswap_v3_pools
+  description: Pool metadata from the uniswap_v3_pools seed, cast and renamed.
+  columns:
+  - name: pool_address
+    description: Pool contract address (lowercase hex).
+    data_tests:
+    - not_null
+  - name: pool_name
+    description: Readable pool name, e.g. ETH/USDC.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - ETH/USDC
+          - WBTC/USDC
+          - USDC/USDT
+  - name: token0_symbol
+    description: Symbol of the pool's token0 (the lower token address).
+    data_tests:
+    - not_null
+  - name: token0_decimals
+    description: Decimals of token0, used to convert raw amounts.
+    data_tests:
+    - not_null
+  - name: token1_symbol
+    description: Symbol of the pool's token1.
+    data_tests:
+    - not_null
+  - name: token1_decimals
+    description: Decimals of token1.
+    data_tests:
+    - not_null
+  - name: fee_tier_bps
+    description: Pool swap fee in basis points (5 = 0.05%).
+    data_tests:
+    - not_null

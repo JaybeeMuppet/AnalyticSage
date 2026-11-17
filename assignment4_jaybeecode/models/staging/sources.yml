@@ -1,0 +1,38 @@
+version: 2
+
+sources:
+  - name: uniswap_raw
+    description: >
+      Raw Uniswap V3 swap events loaded by extract/load_swaps.py.
+      Staging is the only layer that reads from this source.
+    schema: public
+    tables:
+      - name: raw_uniswap_v3_swaps
+        description: One row per Swap event, exactly as decoded from the Ethereum logs.
+        columns:
+          - name: pool_address
+            description: Uniswap V3 pool contract that emitted the Swap (lowercase hex).
+          - name: block_number
+            description: Block the swap was mined in.
+          - name: block_timestamp
+            description: Timestamp of that block (UTC).
+          - name: tx_hash
+            description: Transaction hash (lowercase hex).
+          - name: log_index
+            description: Position of the log in the block. With tx_hash, uniquely identifies the swap.
+          - name: sender
+            description: Address that called swap() on the pool, usually a router.
+          - name: recipient
+            description: Address that received the output tokens.
+          - name: amount0
+            description: Signed change in the pool's token0 balance, in raw units (not scaled by decimals).
+          - name: amount1
+            description: Signed change in the pool's token1 balance, in raw units.
+          - name: sqrt_price_x96
+            description: Square root of the pool price after the swap, as a Q64.96 fixed-point number.
+          - name: liquidity
+            description: Pool's in-range liquidity after the swap.
+          - name: tick
+            description: Pool's current tick after the swap.
+          - name: loaded_at
+            description: When the extractor inserted this row.

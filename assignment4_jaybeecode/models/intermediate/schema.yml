@@ -1,0 +1,104 @@
+version: 2
+models:
+- name: int_uniswap_v3_swaps_enriched
+  description: 'Swaps joined to pool metadata, with the business decisions applied: trade direction, human-unit
+    amounts, decoded price, USDC volume and trade size bucket. One row per swap.'
+  columns:
+  - name: tx_hash
+    description: Transaction hash that emitted the swap.
+    data_tests:
+    - not_null
+  - name: log_index
+    description: Log position in the block. With tx_hash, identifies the swap.
+    data_tests:
+    - not_null
+  - name: pool_address
+    description: Pool contract address.
+    data_tests:
+    - not_null
+  - name: pool_name
+    description: Readable pool name.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - ETH/USDC
+          - WBTC/USDC
+          - USDC/USDT
+  - name: fee_tier_bps
+    description: Pool fee in basis points.
+    data_tests:
+    - not_null
+  - name: block_number
+    description: Block the swap was mined in.
+    data_tests:
+    - not_null
+  - name: block_timestamp
+    description: Block timestamp (UTC).
+    data_tests:
+    - not_null
+  - name: sender_address
+    description: Address that called swap(), usually a router.
+    data_tests:
+    - not_null
+  - name: recipient_address
+    description: Address that received the output tokens.
+    data_tests:
+    - not_null
+  - name: direction
+    description: Derived. token0_to_token1 if the trader sold token0 into the pool, otherwise token1_to_token0.
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - token0_to_token1
+          - token1_to_token0
+  - name: token_in_symbol
+    description: Derived. Token the trader sold into the pool.
+    data_tests:
+    - not_null
+  - name: token_out_symbol
+    description: Derived. Token the trader received from the pool.
+    data_tests:
+    - not_null
+  - name: amount_in
+    description: Derived. Amount of token_in, in human units (always positive).
+    data_tests:
+    - not_null
+  - name: amount_out
+    description: Derived. Amount of token_out, in human units (always positive).
+    data_tests:
+    - not_null
+  - name: base_token_symbol
+    description: Derived. The non-USDC token in the pool, the one being priced.
+    data_tests:
+    - not_null
+  - name: base_token_price_usdc
+    description: Derived. Price of the base token in USDC after the swap, decoded from sqrtPriceX96.
+    data_tests:
+    - not_null
+  - name: volume_usdc
+    description: Derived. Trade value in USDC, the absolute size of the USDC leg.
+    data_tests:
+    - not_null
+  - name: trade_size_bucket
+    description: Derived. small (< 1k USDC), medium (< 10k), large (< 100k) or whale (>= 100k).
+    data_tests:
+    - not_null
+    - accepted_values:
+        arguments:
+          values:
+          - small
+          - medium
+          - large
+          - whale
+  - name: liquidity
+    description: Pool in-range liquidity after the swap.
+    data_tests:
+    - not_null
+  - name: tick
+    description: Pool tick after the swap.
+    data_tests:
+    - not_null

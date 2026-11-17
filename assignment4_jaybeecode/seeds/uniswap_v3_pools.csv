@@ -1,0 +1,4 @@
+pool_address,pool_name,token0_symbol,token0_decimals,token1_symbol,token1_decimals,fee_tier_bps
+0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640,ETH/USDC,USDC,6,WETH,18,5
+0x99ac8ca7087fa4a2a1fb6357269965a2014abc35,WBTC/USDC,WBTC,8,USDC,6,30
+0x3416cf6c708da44db2624d63ea0aaef7113527c6,USDC/USDT,USDC,6,USDT,6,1

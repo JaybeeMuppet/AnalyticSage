@@ -1,0 +1,29 @@
+version: 2
+
+seeds:
+  - name: uniswap_v3_pools
+    description: >
+      Static metadata for the three pools: token order, symbols and decimals.
+      Token order follows Uniswap: token0 is the token with the lower address.
+    columns:
+      - name: pool_address
+        description: Pool contract address (lowercase hex).
+        data_tests: [not_null, unique]
+      - name: pool_name
+        description: Readable pool name.
+        data_tests: [not_null]
+      - name: token0_symbol
+        description: Symbol of token0.
+        data_tests: [not_null]
+      - name: token0_decimals
+        description: Decimals of token0.
+        data_tests: [not_null]
+      - name: token1_symbol
+        description: Symbol of token1.
+        data_tests: [not_null]
+      - name: token1_decimals
+        description: Decimals of token1.
+        data_tests: [not_null]
+      - name: fee_tier_bps
+        description: Pool fee in basis points.
+        data_tests: [not_null]

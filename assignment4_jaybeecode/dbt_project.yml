@@ -1,0 +1,32 @@
+name: uniswap_v3_analytics
+version: "1.0.0"
+config-version: 2
+
+profile: analytics
+
+model-paths: ["models"]
+seed-paths: ["seeds"]
+test-paths: ["tests"]
+target-path: "target"
+clean-targets: ["target", "dbt_packages"]
+
+models:
+  uniswap_v3_analytics:
+    staging:
+      +materialized: view
+    intermediate:
+      +materialized: view
+    marts:
+      +materialized: table
+
+seeds:
+  uniswap_v3_analytics:
+    uniswap_v3_pools:
+      +column_types:
+        pool_address: text
+        pool_name: text
+        token0_symbol: text
+        token0_decimals: integer
+        token1_symbol: text
+        token1_decimals: integer
+        fee_tier_bps: numeric
